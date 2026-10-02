@@ -5,33 +5,73 @@ import { useEffect, useState } from 'react';
 const API_URL = 'http://localhost:5000/api';
 
 export default function HomePage() {
-  const [query, setQuery] = useState('الرحمن');
+  const [chapters, setChapters] = useState([]);
+  const [selectedChapter, setSelectedChapter] = useState(1);
   const [verses, setVerses] = useState([]);
+  const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function loadVerses() {
+    async function fetchChapters() {
       try {
-        const res = await fetch(`${API_URL}/verses/search?q=${encodeURIComponent(query)}`);
+        const res = await fetch(`${API_URL}/chapters`);
         const data = await res.json();
-        setVerses(data);
+        setChapters(data);
+        if (data.length) setSelectedChapter(data[0].id);
       } catch (error) {
-        console.error('Failed to fetch verses:', error);
+        console.error('Failed to fetch chapters:', error);
+      }
+    }
+
+    fetchChapters();
+  }, []);
+
+  useEffect(() => {
+    async function fetchChapterVerses() {
+      setLoading(true);
+      try {
+        const res = await fetch(`${API_URL}/chapters/${selectedChapter}`);
+        const data = await res.json();
+        setVerses(data.verses || []);
+      } catch (error) {
+        console.error('Failed to fetch chapter verses:', error);
       } finally {
         setLoading(false);
       }
     }
 
-    loadVerses();
+    if (selectedChapter) fetchChapterVerses();
+  }, [selectedChapter]);
+
+  useEffect(() => {
+    if (!query.trim()) return;
+
+    async function searchVerses() {
+      setLoading(true);
+      try {
+        const res = await fetch(`${API_URL}/verses/search?q=${encodeURIComponent(query)}`);
+        const data = await res.json();
+        setVerses(data);
+      } catch (error) {
+        console.error('Search failed:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    const timeout = setTimeout(searchVerses, 400);
+    return () => clearTimeout(timeout);
   }, [query]);
+
+  const selectedChapterMeta = chapters.find((c) => c.id === selectedChapter) || null;
 
   return (
     <main className="container">
       <header className="hero">
         <p className="eyebrow">تدبر القرآن الكريم</p>
-        <h1>تدبُّرٌ، وفهمٌ، واستماعٌ</h1>
+        <h1>التدبُّر، الفهم، والاستماع</h1>
         <p className="subtitle">
-          ابحث في آيات القرآن، اقرأ النص العربي، وراجع مصادر التفسير بطريقة قانونية ومسؤولة.
+          مشروع كامل للبحث في الآيات، قراءة السور، والعودة إلى مصادر التفسير بشكل مسؤول ومؤسسي.
         </p>
       </header>
 
@@ -42,6 +82,30 @@ export default function HomePage() {
           placeholder="ابحث عن آية أو كلمة..."
         />
       </section>
+
+      <section className="chapters-strip">
+        {chapters.map((chapter) => (
+          <button
+            key={chapter.id}
+            className={selectedChapter === chapter.id ? 'chapter-chip active' : 'chapter-chip'}
+            onClick={() => {
+              setQuery('');
+              setSelectedChapter(chapter.id);
+            }}
+          >
+            {chapter.name_ar || chapter.name_en}
+          </button>
+        ))}
+      </section>
+
+      {selectedChapterMeta && (
+        <section className="chapter-summary">
+          <h2>{selectedChapterMeta.name_ar || selectedChapterMeta.name_en}</h2>
+          <p>
+            {selectedChapterMeta.verses_count} آية • {selectedChapterMeta.revelation_place || 'مكة/مدينة'}
+          </p>
+        </section>
+      )}
 
       <section className="results">
         {loading ? (
@@ -56,6 +120,11 @@ export default function HomePage() {
               </div>
               <div className="arabic">{verse.text_uthmani || verse.text_imlaei}</div>
               <div className="translation">{verse.translation || 'لا توجد ترجمة'}</div>
+              {verse.tafsir?.source && (
+                <div className="tafsir-box">
+                  <strong>مصدر التفسير:</strong> {verse.tafsir.source}
+                </div>
+              )}
             </article>
           ))
         )}

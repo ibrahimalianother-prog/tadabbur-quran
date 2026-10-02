@@ -1,50 +1,69 @@
 # Tadabbur Quran
 
-A full-stack website for reflecting on the Quran with:
-- Quran text search
-- chapter and verse browsing
-- audio/recitation support hooks
-- tafsir source metadata and legal-safe references
-- clean Arabic-first UI
+A full-stack Quran reflection platform built with:
+- Next.js frontend
+- Express + MongoDB backend
+- Quran text import scripts
+- legal-safe tafsir source registry
 
-Important: This project does not distribute full Shaarawi tafsir text without explicit permission from the rights holder. It instead provides source metadata, summaries, and references where licensing allows. Always verify the rights status before publishing full tafsir content.
+## Important legal note
 
-## Stack
-- Frontend: Next.js
-- Backend: Express + MongoDB
-- Search: MongoDB text search (MVP)
-- Data source: Quran.com API
+This project does not include or distribute the full text of Tafsir al-Shaarawi without clear permission from the rights holder. The app is intentionally structured to:
+- show Quran verses and translations
+- support source links and metadata
+- keep rights-sensitive tafsir materials behind a verification workflow
 
-## Quick start
+## Project structure
 
-1. Install dependencies:
-
-```bash
-# root
-mkdir -p data
-
-# backend
-cd backend
-npm install
-
-# frontend
-cd ../web
-npm install
+```text
+.
+├── backend/
+│   ├── models/
+│   ├── routes/
+│   ├── scripts/
+│   ├── package.json
+│   └── server.js
+├── web/
+│   ├── app/
+│   ├── package.json
+│   └── next.config.js
+├── data/
+├── .env.example
+├── docker-compose.yml
+├── README.md
+├── LICENSE
+└── .gitignore
 ```
 
-2. Start MongoDB (optional via Docker):
+## Requirements
+- Node.js 18+
+- MongoDB
+- Docker (optional for MongoDB container)
+
+## Setup
+
+### 1) Install dependencies
+
+```bash
+cd backend && npm install
+cd ../web && npm install
+```
+
+### 2) Start MongoDB
+
+Option A: Docker
 
 ```bash
 docker-compose up -d mongo
 ```
 
-3. Copy environment file:
+### 3) Create environment
 
 ```bash
 cp .env.example .env
 ```
 
-4. Fetch Quran data:
+### 4) Download Quran data
 
 ```bash
 cd backend
@@ -52,7 +71,7 @@ npm run fetch:quran
 npm run import:quran
 ```
 
-5. Run services:
+### 5) Start services
 
 ```bash
 # backend
@@ -64,42 +83,33 @@ cd web
 npm run dev
 ```
 
-Frontend: http://localhost:3000
-Backend: http://localhost:5000
+Open:
+- Frontend: http://localhost:3000
+- API: http://localhost:5000/api/health
 
-## Project structure
+## Features included
+- search Quran verses
+- browse chapters and verses
+- Arabic-first interface
+- dynamic chapter list
+- tafsir source data model
+- clean foundation for premium features
 
-```text
-.
-├── backend/
-│   ├── models/
-│   ├── routes/
-│   ├── scripts/
-│   ├── .env.example
-│   ├── package.json
-│   └── server.js
-├── web/
-│   ├── app/
-│   ├── package.json
-│   └── ...
-├── data/
-├── .env.example
-├── docker-compose.yml
-├── README.md
-└── .gitignore
-```
+## Recommended next upgrades
+- Arabic search indexing with Meilisearch or ElasticSearch
+- audio recitation integration
+- tafsir sources dashboard
+- user accounts and bookmarks
+- CMS/admin panel
 
-## License note
+## Tafsir licensing guidance
 
-This project intentionally does not include the full text of Tafsir al-Shaarawi unless a valid licensing arrangement exists. For rights-sensitive material, use source links, content excerpts, or original summaries only.
+If you want to add a tafsir source like Al-Shaarawi, verify licensing before publishing full texts. Safer approaches include:
+- official links to source pages
+- excerpts with attribution
+- original summaries and notes
+- permission workflows before upload
 
-## Roadmap
-- Search by verse text and translation
-- Arabic/English translation support
-- audio handling for recitations
-- tafsir source panel with legal-safe licensing status
-- dashboard/teacher mode for advanced study
+## License
 
-## Contribution
-
-Pull requests are welcome.
+This repository is licensed under the MIT License unless otherwise specified. Use caution with copyrighted tafsir content.

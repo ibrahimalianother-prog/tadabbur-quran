@@ -1,6 +1,7 @@
 const fs = require('fs');
 const mongoose = require('mongoose');
 const Verse = require('../models/Verse');
+const Chapter = require('../models/Chapter');
 const dotenv = require('dotenv');
 
 dotenv.config({ path: '../.env' });
@@ -9,6 +10,25 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/tadabbur_qu
   .then(async () => {
     const dataDir = __dirname + '/../../data';
     const files = fs.readdirSync(dataDir).filter((file) => file.startsWith('chapter-') && file.endsWith('.json'));
+
+    const chapterMeta = JSON.parse(fs.readFileSync(`${dataDir}/chapters.json`, 'utf8'));
+
+    for (const meta of chapterMeta) {
+      await Chapter.updateOne(
+        { id: meta.id },
+        {
+          id: meta.id,
+          name_ar: meta.name_ar,
+          name_en: meta.name_simple,
+          transliteration: meta.translated_name?.name || meta.name_simple,
+          verses_count: meta.verses_count,
+          revelation_place: meta.revelation_place,
+          pages: meta.pages || '',
+          slug: meta.slug || ''
+        },
+        { upsert: true }
+      );
+    }
 
     for (const file of files) {
       const raw = fs.readFileSync(`${dataDir}/${file}`, 'utf8');

@@ -2,7 +2,7 @@ import './globals.css';
 
 export const metadata = {
   title: 'تدبر القرآن الكريم',
-  description: 'Website for reflecting on the Quran and exploring sources of tafsir safely.'
+  description: 'موقع لتدبر القرآن الكريم، البحث في الآيات، واستعراض مصادر التفسير بشكل آمن وموثوق.'
 };
 
 export default function RootLayout({ children }) {

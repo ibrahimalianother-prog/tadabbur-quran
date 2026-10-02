@@ -4,6 +4,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 
 const versesRoutes = require('./routes/verses');
+const chaptersRoutes = require('./routes/chapters');
 const tafsirRoutes = require('./routes/tafsir');
 
 dotenv.config({ path: '../.env' });
@@ -19,9 +20,12 @@ app.get('/api/health', (req, res) => {
 });
 
 app.use('/api/verses', versesRoutes);
+app.use('/api/chapters', chaptersRoutes);
 app.use('/api/tafsir', tafsirRoutes);
 
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/tadabbur_quran')
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/tadabbur_quran', {
+  serverSelectionTimeoutMS: 5000
+})
   .then(() => {
     console.log('MongoDB connected');
     app.listen(PORT, () => {

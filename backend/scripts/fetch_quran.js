@@ -53,7 +53,7 @@ async function fetchVersesByChapter(chapterId) {
         JSON.stringify(verses, null, 2),
         'utf8'
       );
-      await new Promise((resolve) => setTimeout(resolve, 300));
+      await new Promise((resolve) => setTimeout(resolve, 250));
     }
 
     console.log('Quran data downloaded successfully');

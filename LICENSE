@@ -1,0 +1,70 @@
+# Tadabbur Quran
+
+A full-stack Quran reflection app with a search-first, Arabic-oriented experience.
+
+## Important legal note
+
+This project does not include the full text of Tafsir al-Shaarawi without explicit rights permissions. Instead, the app is designed to:
+- search the Quran text
+- link to approved source material
+- allow a safe tafsir metadata layer
+- keep rights-sensitive text behind a clear licensing workflow
+
+## Features
+- Quran chapter and verse search
+- Arabic text display
+- translation support ready for import
+- MongoDB-backed data model
+- tafsir source registry
+
+## Run locally
+
+### 1) Install dependencies
+
+```bash
+cd backend && npm install
+cd ../web && npm install
+```
+
+### 2) Start MongoDB
+
+```bash
+docker-compose up -d mongo
+```
+
+### 3) Download Quran data
+
+```bash
+cd backend
+cp ../.env.example ../.env
+npm run fetch:quran
+npm run import:quran
+```
+
+### 4) Start services
+
+```bash
+# API
+cd backend
+npm run dev
+
+# Frontend
+cd web
+npm run dev
+```
+
+Then open:
+- http://localhost:3000
+- http://localhost:5000/api/health
+
+## Notes on Tafsir sources
+
+If you want to add a tafsir source like Al-Shaarawi, do not upload the full copyrighted text without written authorization. Use:
+- official website URLs
+- metadata only
+- excerpt/summary workflows
+- license verification before publishing
+
+## Repo purpose
+
+This repository is a starter project and MVP to build a full Quran reflection platform.

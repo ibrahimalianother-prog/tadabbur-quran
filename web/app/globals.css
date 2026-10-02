@@ -1,0 +1,89 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(180deg, #f5efe6 0%, #f9f7f3 100%);
+  color: #1d1b1a;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  color: #6b5843;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  margin: 10px 0;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #54493d;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.search-box {
+  margin-bottom: 24px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 18px 20px;
+  border: 1px solid #ddd1bf;
+  border-radius: 16px;
+  font-size: 1.1rem;
+  background: #fffaf3;
+  outline: none;
+}
+
+.results {
+  display: grid;
+  gap: 18px;
+}
+
+.verse-card {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid #e8dfd0;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 22px rgba(80, 63, 43, 0.06);
+}
+
+.verse-meta {
+  color: #7d6858;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.arabic {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  line-height: 2.1;
+  color: #0f172a;
+  margin-bottom: 12px;
+}
+
+.translation {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #463d36;
+}

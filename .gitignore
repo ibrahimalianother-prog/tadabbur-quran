@@ -1,0 +1,17 @@
+# Node modules
+node_modules/
+.next/
+.env
+.env.local
+npm-debug.log*
+
+# Data files (not committed by default)
+data/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
